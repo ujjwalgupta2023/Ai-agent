@@ -1,0 +1,31 @@
+from datetime import date
+from twilio.rest import Client
+
+# Your Twilio credentials
+account_sid = "YUOR KEY"
+auth_token = "YOUR KEY"
+
+# Your Twilio WhatsApp number and your personal number
+from_whatsapp_number = "whatsapp:+14155238886"
+to_whatsapp_number = "whatsapp:+91YOUR NUMBER"
+
+def calculate_days_left():
+    """Calculates the number of days left in 2025."""
+    today = date.today()
+    end_of_year = date(2025, 12, 31)
+    return (end_of_year - today).days
+
+if __name__ == "__main__":
+    try:
+        days_left = calculate_days_left()
+        message_body = f"Hello! ðŸ‘‹ There are {days_left} days left in the year 2025."
+
+        client = Client(account_sid, auth_token)
+        message = client.messages.create(
+            body=message_body,
+            from_=from_whatsapp_number,
+            to=to_whatsapp_number
+        )
+        print(f"Message sent successfully! SID: {message.sid}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
